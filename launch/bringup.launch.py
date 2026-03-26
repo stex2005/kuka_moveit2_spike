@@ -94,11 +94,7 @@ def generate_launch_description():
             package="moveit_ros_move_group",
             executable="move_group",
             output="screen",
-            parameters=[
-                moveit_config.to_dict(),
-                {"use_sim_time": False,
-                 "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager"},
-            ],
+            parameters=[moveit_config.to_dict(), {"use_sim_time": False}],
         ),
 
         # RViz (conditional)

@@ -1,0 +1,62 @@
+[0.010s] Invoking command in '/home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/stefano/ros2_ws/src/kuka_moveit2_spike -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike
+[0.101s] -- The C compiler identification is GNU 11.4.0
+[0.192s] -- The CXX compiler identification is GNU 11.4.0
+[0.202s] -- Detecting C compiler ABI info
+[0.287s] -- Detecting C compiler ABI info - done
+[0.294s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.294s] -- Detecting C compile features
+[0.295s] -- Detecting C compile features - done
+[0.298s] -- Detecting CXX compiler ABI info
+[0.400s] -- Detecting CXX compiler ABI info - done
+[0.410s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.410s] -- Detecting CXX compile features
+[0.410s] -- Detecting CXX compile features - done
+[0.416s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.948s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[1.042s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.219s] -- Configuring done
+[1.222s] -- Generating done
+[1.224s] -- Build files have been written to: /home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike
+[1.229s] Invoked command in '/home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/stefano/ros2_ws/src/kuka_moveit2_spike -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike
+[1.231s] Invoking command in '/home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike -- -j12 -l12
+[1.289s] Invoked command in '/home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike -- -j12 -l12
+[1.302s] Invoking command in '/home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike
+[1.312s] -- Install configuration: ""
+[1.312s] -- Execute custom install script
+[1.313s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/urdf/kr_70_r2100.ros2_control.xacro
+[1.322s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/urdf/kr_70_r2100.urdf.xacro
+[1.338s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/srdf/kr_70_r2100.srdf.xacro
+[1.350s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/meshes/base_link_D.STL
+[1.359s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/meshes/cable_guide_mount.STL
+[1.370s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/meshes/link_A1.STL
+[1.379s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/meshes/link_A2.STL
+[1.389s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/meshes/link_A3.STL
+[1.403s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/meshes/link_A4.STL
+[1.412s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/meshes/link_A5.STL
+[1.422s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/meshes/link_A6.STL
+[1.434s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/config/joint_limits.yaml
+[1.444s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/config/kinematics.yaml
+[1.455s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/config/moveit.rviz
+[1.467s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/config/moveit_controllers.yaml
+[1.478s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/config/ompl_planning.yaml
+[1.489s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/config/pilz_cartesian_limits.yaml
+[1.498s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/config/pilz_industrial_motion_planner_planning.yaml
+[1.507s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/config/ros2_controllers.yaml
+[1.516s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/launch/bringup.launch.py
+[1.527s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/scripts/test_plan_execute.py
+[1.536s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/ament_index/resource_index/package_run_dependencies/kuka_moveit2_spike
+[1.546s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/ament_index/resource_index/parent_prefix_path/kuka_moveit2_spike
+[1.560s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/environment/ament_prefix_path.sh
+[1.569s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/environment/ament_prefix_path.dsv
+[1.579s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/environment/path.sh
+[1.591s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/environment/path.dsv
+[1.600s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/local_setup.bash
+[1.609s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/local_setup.sh
+[1.623s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/local_setup.zsh
+[1.631s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/local_setup.dsv
+[1.640s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/package.dsv
+[1.656s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/ament_index/resource_index/packages/kuka_moveit2_spike
+[1.664s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/cmake/kuka_moveit2_spikeConfig.cmake
+[1.672s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/cmake/kuka_moveit2_spikeConfig-version.cmake
+[1.685s] -- Symlinking: /home/stefano/ros2_ws/src/kuka_moveit2_spike/install/kuka_moveit2_spike/share/kuka_moveit2_spike/package.xml
+[1.698s] Invoked command in '/home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike

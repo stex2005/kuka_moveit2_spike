@@ -1,0 +1,1 @@
+/home/stefano/ros2_ws/src/kuka_moveit2_spike/launch/bringup.launch.py

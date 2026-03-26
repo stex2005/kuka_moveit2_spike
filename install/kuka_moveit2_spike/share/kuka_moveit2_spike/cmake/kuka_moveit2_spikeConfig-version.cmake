@@ -1,0 +1,1 @@
+/home/stefano/ros2_ws/src/kuka_moveit2_spike/build/kuka_moveit2_spike/ament_cmake_core/kuka_moveit2_spikeConfig-version.cmake

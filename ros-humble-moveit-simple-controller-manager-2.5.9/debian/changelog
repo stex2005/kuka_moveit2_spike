@@ -1,0 +1,460 @@
+ros-humble-moveit-simple-controller-manager (2.5.9-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Tue, 15 Apr 2025 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.5.8-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Sun, 09 Feb 2025 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.5.7-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Sun, 29 Dec 2024 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.5.6-1jammy) jammy; urgency=high
+
+  * Become standard-compatible (#2895 <https://github.com/ros-planning/moveit2/issues/2895>)
+  * Contributors: Tobias Fischer
+
+ -- Michael Görner <me@v4hn.de>  Sun, 17 Nov 2024 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.5.5-1jammy) jammy; urgency=high
+
+  * Use emulated time in action-based controller (#899 <https://github.com/ros-planning/moveit2/issues/899>) (#1743 <https://github.com/ros-planning/moveit2/issues/1743>)
+    (cherry picked from commit b6fcac8055f54012dd9e698be6e06f70613a5abf)
+    Co-authored-by: Gaël Écorchard <mailto:gael.ecorchard@cvut.cz>
+  * Re-enable clang-tidy check performance-unnecessary-value-param (backport #1703 <https://github.com/ros-planning/moveit2/issues/1703>)
+    * Re-enable clang-tidy check performance-unnecessary-value-param (#1703 <https://github.com/ros-planning/moveit2/issues/1703>)
+    * Fix clang-tidy issues (#1706 <https://github.com/ros-planning/moveit2/issues/1706>)
+    Co-authored-by: Henning Kayser <mailto:henningkayser@picknik.ai>
+    Co-authored-by: Robert Haschke <mailto:rhaschke@users.noreply.github.com>
+  * Contributors: mergify[bot]
+
+ -- Michael Görner <me@v4hn.de>  Sun, 10 Sep 2023 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.5.4-1jammy) jammy; urgency=high
+
+  * Support chained controllers (backport #1482 <https://github.com/ros-planning/moveit2/issues/1482>) (#1623 <https://github.com/ros-planning/moveit2/issues/1623>)
+    (cherry picked from commit 3db960a4b3b1e1d25630867a62ea1182bac2e96a)
+    Co-authored-by: Paul Gesel <mailto:paulgesel@gmail.com>
+  * Improve CMake usage (#1550 <https://github.com/ros-planning/moveit2/issues/1550>) (#1555 <https://github.com/ros-planning/moveit2/issues/1555>)
+    Co-authored-by: Sebastian Jahr <mailto:sebastian.jahr@picknik.ai>
+  * Contributors: mergify[bot]
+
+ -- Michael Görner <me@v4hn.de>  Fri, 04 Nov 2022 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.5.3-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Thu, 28 Jul 2022 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.5.2-1jammy) jammy; urgency=high
+
+  * Remove unnecessary rclcpp.hpp includes (#1333 <https://github.com/ros-planning/moveit2/issues/1333>)
+  * Merge pull request #3106 <https://github.com/ros-planning/moveit2/issues/3106> from v4hn/pr-master-bind-them-all / banish bind()
+  * banish bind()
+  * Contributors: Jafar, Michael Görner, v4hn
+
+ -- Michael Görner <me@v4hn.de>  Mon, 18 Jul 2022 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.5.1-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Tue, 31 May 2022 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.5.0-1jammy) jammy; urgency=high
+
+  * Enable cppcheck (#1224 <https://github.com/ros-planning/moveit2/issues/1224>)
+    Co-authored-by: jeoseo <mailto:jeongwooseo2012@gmail.com>
+  * Make moveit_common a 'depend' rather than 'build_depend' (#1226 <https://github.com/ros-planning/moveit2/issues/1226>)
+  * RCLCPP Upgrade Bugfixes (#1181 <https://github.com/ros-planning/moveit2/issues/1181>)
+  * Merge https://github.com/ros-planning/moveit/commit/a25515b73d682df03ed3eccd839110c296aa79fc
+  * 1.1.9
+  * 1.1.8
+  * 1.1.7
+  * feat(simple_controller_manager): add max_effort parameter to GripperCommand action (#2984 <https://github.com/ros-planning/moveit2/issues/2984>)
+    This commit adds the max_effort parameter to the GripperCommand
+    declaration in the controller_list (see issue #2956 <https://github.com/ros-planning/moveit2/issues/2956>). This value is
+    only used when effort is set in the requested gripper trajectory.
+    Co-authored-by: Jafar Abdi <mailto:cafer.abdi@gmail.com>
+  * Switch to std::bind (#2967 <https://github.com/ros-planning/moveit2/issues/2967>)
+    * boost::bind -> std::bind
+    grep -rlI --exclude-dir=.git "boost::bind" | xargs sed -i 's/boost::bind/std::bind/g'
+    * Convert bind placeholders
+    grep -rlI --exclude-dir=.git " _[0-9]" | xargs sed -i 's/ _([0-9])/ std::placeholders::_1/g'
+    * Update bind include header
+    grep -rlI --exclude-dir=.git "boost/bind" | xargs sed -i 's#boost/bind.hpp#functional#'
+  * 1.1.6
+  * Contributors: Abishalini, David V. Lu!!, Jafar, Jochen Sprickerhof, Rick Staa, Robert Haschke, jeoseo
+
+ -- Michael Görner <me@v4hn.de>  Thu, 26 May 2022 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.4.0-1jammy) jammy; urgency=high
+
+  * moveit_build_options()
+    Declare common build options like CMAKE_CXX_STANDARD, CMAKE_BUILD_TYPE,
+    and compiler options (namely warning flags) once.
+    Each package depending on moveit_core can use these via moveit_build_options().
+  * Contributors: Robert Haschke
+
+ -- Michael Görner <me@v4hn.de>  Thu, 20 Jan 2022 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.3.2-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Wed, 29 Dec 2021 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.3.1-1jammy) jammy; urgency=high
+
+  * Add codespell to precommit, fix A LOT of spelling mistakes (#934 <https://github.com/ros-planning/moveit2/issues/934>)
+  * Make controller management logic more tolerant of missing or late ros2_control nodes (#792 <https://github.com/ros-planning/moveit2/issues/792>)
+  * Clang-tidy fixes (#596 <https://github.com/ros-planning/moveit2/issues/596>)
+  * Enforce package.xml format 3 Schema (#779 <https://github.com/ros-planning/moveit2/issues/779>)
+  * Update Maintainers of MoveIt package (#697 <https://github.com/ros-planning/moveit2/issues/697>)
+  * clang-tidy: modernize-make-shared, modernize-make-unique (#2762 <https://github.com/ros-planning/moveit/issues/2762>)
+  * controller manager: enclose name in quotes (#2761 <https://github.com/ros-planning/moveit/issues/2761>)
+  * Contributors: Dave Coleman, David V. Lu!!, G.A. vd. Hoorn, Henning Kayser, Joseph Schornak, Robert Haschke, pvanlaar
+
+ -- Michael Görner <me@v4hn.de>  Thu, 23 Dec 2021 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.3.0-1jammy) jammy; urgency=high
+
+  * Fix cmake warnings (#690 <https://github.com/ros-planning/moveit2/issues/690>)
+    * Fix -Wformat-security
+    * Fix -Wunused-variable
+    * Fix -Wunused-lambda-capture
+    * Fix -Wdeprecated-declarations
+    * Fix clang-tidy, readability-identifier-naming in moveit_kinematics
+  * follow_joint_trajectory_controller_handle: publish new multi_dof_trajectory field (#492 <https://github.com/ros-planning/moveit2/issues/492>)
+  * Contributors: Henning Kayser, Jafar Abdi, David V. Lu
+
+ -- Michael Görner <me@v4hn.de>  Fri, 08 Oct 2021 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.2.1-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Mon, 12 Jul 2021 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.2.0-1jammy) jammy; urgency=high
+
+  * Enable Rolling and Galactic CI (#494 <https://github.com/ros-planning/moveit2/issues/494>)
+  * [sync] MoveIt's master branch up-to https://github.com/ros-planning/moveit/commit/0d0a6a171b3fbea97a0c4f284e13433ba66a4ea4
+  * Contributors: Henning Kayser, JafarAbdi, Tyler Weaver, Vatan Aksoy Tezer
+
+ -- Michael Görner <me@v4hn.de>  Wed, 30 Jun 2021 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.1.4-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Mon, 31 May 2021 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.1.3-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Sat, 22 May 2021 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.1.2-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Tue, 20 Apr 2021 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.1.1-1jammy) jammy; urgency=high
+
+  * Fix EXPORT install in CMake (#372 <https://github.com/ros-planning/moveit2/issues/372>)
+  * ActionBasedControllerHandle: fix dangling reference in case of timeout
+  * [fix] Export libs for MoveGroup capabilities and MoveItSimpleControllerManager (#344 <https://github.com/ros-planning/moveit2/issues/344>)
+  * MTC compatibility fixes (#323 <https://github.com/ros-planning/moveit2/issues/323>)
+  * Replace workaround for controllerDoneCallback with promise/future
+  * moveit_simple_controller_manager: Fix waiting for execution
+  * Fix repo URLs in package.xml files
+  * Contributors: Boston Cleek, Henning Kayser, Jafar Abdi, Tyler Weaver
+
+ -- Michael Görner <me@v4hn.de>  Mon, 12 Apr 2021 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.1.0-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Mon, 23 Nov 2020 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (2.0.0-1jammy) jammy; urgency=high
+
+  * [improve] MoveItSimpleControllerManager refactor parameter lookup
+  * [fix] Fix plugin install of MoveItSimpleControllerManager
+  * [port] Port moveit_simple_controller_manager to ROS 2 (#158 <https://github.com/ros-planning/moveit2/issues/158>)
+  * Contributors: Henning Kayser, Jafar Abdi
+
+ -- Michael Görner <me@v4hn.de>  Mon, 17 Feb 2020 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (1.1.1-1jammy) jammy; urgency=high
+
+  * [maint] Add comment to MOVEIT_CLASS_FORWARD (#2315 <https://github.com/ros-planning/moveit/issues/2315>)
+  * Contributors: Felix von Drigalski
+
+ -- Michael Görner <me@v4hn.de>  Tue, 13 Oct 2020 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (1.1.0-1jammy) jammy; urgency=high
+
+  * [feature] Optional cpp version setting (#2166 <https://github.com/ros-planning/moveit/issues/2166>)
+  * [feature] Allow different controllers for execution #1832 <https://github.com/ros-planning/moveit/issues/1832>)
+  * [feature] ControllerManager: wait for done-callback (#1783 <https://github.com/ros-planning/moveit/issues/1783>)
+  * [feature] Use CMAKE_CXX_STANDARD to enforce c++14 for portability (#1607 <https://github.com/ros-planning/moveit/issues/1607>)
+  * [fix] Various fixes for upcoming Noetic release (#2180 <https://github.com/ros-planning/moveit/issues/2180>)
+  * [fix] Fix errors: catkin_lint 1.6.7 (#1987 <https://github.com/ros-planning/moveit/issues/1987>)
+  * [fix] Fix compiler warnings (#1773 <https://github.com/ros-planning/moveit/issues/1773>)
+  * [fix] Fix binary artifact install locations. (#1575 <https://github.com/ros-planning/moveit/issues/1575>)
+  * [fix] add missing space to log (#1477 <https://github.com/ros-planning/moveit/issues/1477>)
+  * [maint] clang-tidy fixes (#2050 <https://github.com/ros-planning/moveit/issues/2050>, #1419 <https://github.com/ros-planning/moveit/issues/1419>)
+  * [maint] Switch from include guards to pragma once (#1615 <https://github.com/ros-planning/moveit/issues/1615>)
+  * [maint] Remove ! from MoveIt name (#1590 <https://github.com/ros-planning/moveit/issues/1590>)
+  * Contributors: Dave Coleman, Henning Kayser, Jonathan Binney, Leroy Rügemer, Robert Haschke, Sean Yen, Tyler Weaver, Yu, Yan, llach
+
+ -- Michael Görner <me@v4hn.de>  Fri, 04 Sep 2020 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (1.0.6-1jammy) jammy; urgency=high
+
+  * [maint] Migrate to clang-format-10
+  * Contributors: Robert Haschke
+
+ -- Michael Görner <me@v4hn.de>  Wed, 19 Aug 2020 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (1.0.5-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Wed, 08 Jul 2020 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (1.0.4-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Sat, 30 May 2020 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (1.0.3-1jammy) jammy; urgency=high
+
+  * [fix]   Handle "default" parameter in MoveitControllerManagers
+    MoveIt{Fake|Simple}ControllerManager::getControllerState() now correctly returns current state
+  * [maint] Fix errors: catkin_lint 1.6.7 (#1987 <https://github.com/ros-planning/moveit/issues/1987>)
+  * [maint] Windows build: Fix binary artifact install locations. (#1575 <https://github.com/ros-planning/moveit/issues/1575>)
+  * [maint] Use CMAKE_CXX_STANDARD to enforce c++14 (#1607 <https://github.com/ros-planning/moveit/issues/1607>)
+  * [fix]   ControllerManager: wait for done-callback (#1783 <https://github.com/ros-planning/moveit/issues/1783>)
+  * Contributors: Robert Haschke, Sean Yen, Luca Lach
+
+ -- Michael Görner <me@v4hn.de>  Sun, 26 Apr 2020 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (1.0.2-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Fri, 28 Jun 2019 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (1.0.1-1jammy) jammy; urgency=high
+
+  * [improve] Apply clang tidy fix to entire code base (Part 1) (#1366 <https://github.com/ros-planning/moveit/issues/1366>)
+  * Contributors: Yu, Yan
+
+ -- Michael Görner <me@v4hn.de>  Fri, 08 Mar 2019 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (1.0.0-1jammy) jammy; urgency=high
+
+  * [maintenance] cleanup SimpleControllerManager https://github.com/ros-planning/moveit/pull/1352
+  * Contributors: Robert Haschke
+
+ -- Michael Görner <me@v4hn.de>  Sun, 24 Feb 2019 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.10.8-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Mon, 24 Dec 2018 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.10.7-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Thu, 13 Dec 2018 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.10.6-1jammy) jammy; urgency=high
+
+  * [maintenance] Code Cleanup (#1196 <https://github.com/ros-planning/moveit/issues/1196>)
+  * Contributors: Robert Haschke
+
+ -- Michael Görner <me@v4hn.de>  Sun, 09 Dec 2018 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.10.5-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Thu, 01 Nov 2018 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.10.4-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Mon, 29 Oct 2018 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.10.3-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Mon, 29 Oct 2018 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.10.2-1jammy) jammy; urgency=high
+
+  * [maintenance] various compiler warnings (#1038 <https://github.com/ros-planning/moveit/issues/1038>)
+  * [maintenance] add minimum required pluginlib version (#927 <https://github.com/ros-planning/moveit/issues/927>)
+  * Contributors: Mikael Arguedas, Mohmmad Ayman, Robert Haschke, mike lautman
+
+ -- Michael Görner <me@v4hn.de>  Wed, 24 Oct 2018 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.10.1-1jammy) jammy; urgency=high
+
+  * switch to ROS_LOGGER from CONSOLE_BRIDGE (#874 <https://github.com/ros-planning/moveit/issues/874>)
+  * Contributors: Mikael Arguedas, Xiaojian Ma
+
+ -- Michael Görner <me@v4hn.de>  Fri, 25 May 2018 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.9.11-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Mon, 25 Dec 2017 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.9.10-1jammy) jammy; urgency=high
+
+  * [capability][kinetic onward] optionally wait for controllers indefinitely (#695 <https://github.com/ros-planning/moveit/issues/695>)
+  * Contributors: Bruno Brito, Michael Görner
+
+ -- Michael Görner <me@v4hn.de>  Sat, 09 Dec 2017 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.9.9-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Sun, 06 Aug 2017 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.9.8-1jammy) jammy; urgency=high
+
+  * [fix] include order (#529 <https://github.com/ros-planning/moveit/issues/529>)
+  * Contributors: Michael Goerner
+
+ -- Michael Görner <me@v4hn.de>  Wed, 21 Jun 2017 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.9.7-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Mon, 05 Jun 2017 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.9.6-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Wed, 12 Apr 2017 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.9.5-1jammy) jammy; urgency=high
+
+  * [fix][moveit_ros_warehouse] gcc6 build error #423 <https://github.com/ros-planning/moveit/pull/423>
+  * [enhancement] Remove "catch (...)" instances, catch std::exception instead of std::runtime_error (#445 <https://github.com/ros-planning/moveit/issues/445>)
+  * Contributors: Bence Magyar, Dave Coleman
+
+ -- Michael Görner <me@v4hn.de>  Wed, 08 Mar 2017 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.9.4-1jammy) jammy; urgency=high
+
+  * [fix] assertion error when result not returned (#378 <https://github.com/ros-planning/moveit/issues/378>)
+  * [maintenance] clang-format upgraded to 3.8 (#367 <https://github.com/ros-planning/moveit/issues/367>)
+  * Contributors: Dave Coleman, Michael Ferguson
+
+ -- Michael Görner <me@v4hn.de>  Mon, 06 Feb 2017 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.9.3-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Wed, 16 Nov 2016 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.5.7-1jammy) jammy; urgency=high
+
+  * expose headers of moveit_simple_controller_manager
+  * Removed redundant logging information
+  * More informative warning message about multi-dof trajectories.
+  * Contributors: Dave Coleman, Dave Hershberger, Mathias Lüdtke
+
+ -- Michael Görner <me@v4hn.de>  Sat, 30 Jan 2016 05:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.5.6-1jammy) jammy; urgency=high
+
+  * Allow simple controller manager to ignore virtual joints without failing
+  * Contributors: Dave Coleman
+
+ -- Michael Görner <me@v4hn.de>  Sun, 23 Mar 2014 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.5.5-1jammy) jammy; urgency=high
+
+  * properly fill in the gripper command effort
+  * allow trajectories with >1 points, use the last point of any trajectory
+  * added better error reporting for FollowJointTrajectoryControllers
+
+ -- Michael Görner <me@v4hn.de>  Mon, 30 Sep 2013 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.5.4-1jammy) jammy; urgency=high
+
+
+
+ -- Michael Görner <me@v4hn.de>  Tue, 24 Sep 2013 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.5.3-1jammy) jammy; urgency=high
+
+  * make things a bit more robust
+  * make headers and author definitions aligned the same way; white space fixes
+  * fix #1 <https://github.com/ros-planning/moveit_plugins/issues/1>
+
+ -- Michael Görner <me@v4hn.de>  Mon, 23 Sep 2013 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.5.1-1jammy) jammy; urgency=high
+
+  * ns parameter is now action_ns, get rid of defaults
+
+ -- Michael Görner <me@v4hn.de>  Tue, 30 Jul 2013 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.5.0-1jammy) jammy; urgency=high
+
+  * white space fixes (tabs are now spaces)
+
+ -- Michael Görner <me@v4hn.de>  Tue, 16 Jul 2013 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.4.1-1jammy) jammy; urgency=high
+
+  * minor updates to package.xml
+
+ -- Michael Görner <me@v4hn.de>  Wed, 03 Jul 2013 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.4.0-1jammy) jammy; urgency=high
+
+  * debs look good, bump to 0.4.0
+
+ -- Michael Görner <me@v4hn.de>  Thu, 06 Jun 2013 04:00:00 -0000
+
+ros-humble-moveit-simple-controller-manager (0.1.0-1jammy) jammy; urgency=high
+
+  * add metapackage, clean up build in controller manager
+  * remove the now dead loaded controller stuff
+  * break out follow/gripper into separate headers
+  * initial working version
+
+ -- Michael Görner <me@v4hn.de>  Wed, 05 Jun 2013 04:00:00 -0000
+
+
