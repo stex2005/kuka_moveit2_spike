@@ -32,7 +32,7 @@ def _build_moveit_config(pkg_share):
             file_path=os.path.join(pkg_share, "config", "joint_limits.yaml")
         )
         .planning_pipelines(
-            pipelines=["ompl", "pilz_industrial_motion_planner"],
+            pipelines=["ompl"],  # add "pilz_industrial_motion_planner" once ros-humble-moveit-planners-pilz is installed
             default_planning_pipeline="ompl",
         )
         .trajectory_execution(
@@ -94,7 +94,11 @@ def generate_launch_description():
             package="moveit_ros_move_group",
             executable="move_group",
             output="screen",
-            parameters=[moveit_config.to_dict(), {"use_sim_time": False}],
+            parameters=[
+                moveit_config.to_dict(),
+                {"use_sim_time": False,
+                 "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager"},
+            ],
         ),
 
         # RViz (conditional)
