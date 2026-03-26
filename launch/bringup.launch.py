@@ -32,7 +32,7 @@ def _build_moveit_config(pkg_share):
             file_path=os.path.join(pkg_share, "config", "joint_limits.yaml")
         )
         .planning_pipelines(
-            pipelines=["ompl"],  # add "pilz_industrial_motion_planner" once ros-humble-moveit-planners-pilz is installed
+            pipelines=["ompl", "pilz_industrial_motion_planner"],
             default_planning_pipeline="ompl",
         )
         .trajectory_execution(
