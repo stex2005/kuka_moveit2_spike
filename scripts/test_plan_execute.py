@@ -7,6 +7,8 @@ Requires bringup.launch.py to be running.
 Usage: ros2 run kuka_moveit2_spike test_plan_execute.py
    or: python3 test_plan_execute.py
 """
+import copy
+import math
 import time
 import sys
 
@@ -14,6 +16,8 @@ import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
 from rclpy.callback_groups import ReentrantCallbackGroup
+
+from tf2_ros import Buffer, TransformListener
 
 from moveit_msgs.action import MoveGroup
 from moveit_msgs.msg import (
@@ -72,7 +76,28 @@ class PlannerTester(Node):
         self._action_client = ActionClient(
             self, MoveGroup, "/move_action", callback_group=self._cb_group
         )
+        self._tf_buffer = Buffer()
+        self._tf_listener = TransformListener(self._tf_buffer, self)
         self._results = []
+
+    def get_ee_pose(self, timeout=5.0):
+        """Get current end-effector pose via TF."""
+        end_time = time.time() + timeout
+        while time.time() < end_time:
+            rclpy.spin_once(self, timeout_sec=0.1)
+            try:
+                t = self._tf_buffer.lookup_transform("base_link", "link_A6", rclpy.time.Time())
+                pose = PoseStamped()
+                pose.header.frame_id = "base_link"
+                pose.pose.position.x = t.transform.translation.x
+                pose.pose.position.y = t.transform.translation.y
+                pose.pose.position.z = t.transform.translation.z
+                pose.pose.orientation = t.transform.rotation
+                return pose
+            except Exception:
+                continue
+        self.get_logger().error("Could not get EE pose from TF")
+        return None
 
     def wait_for_server(self, timeout=10.0):
         self.get_logger().info("Waiting for MoveGroup action server...")
@@ -184,10 +209,14 @@ class PlannerTester(Node):
             self._results.append((test_name, False, "Timeout"))
             return False
 
-        error_code = result.result.error_code.val
+        r = result.result
+        error_code = r.error_code.val
         if error_code == 1:  # SUCCESS
-            self.get_logger().info(f"  PASSED (planning_time={result.result.planning_time:.3f}s)")
-            self._results.append((test_name, True, f"planning_time={result.result.planning_time:.3f}s"))
+            pt = r.planning_time if hasattr(r, 'planning_time') else 0.0
+            traj_pts = len(r.planned_trajectory.joint_trajectory.points) if r.planned_trajectory.joint_trajectory.points else 0
+            detail = f"planning_time={pt:.3f}s, traj_points={traj_pts}"
+            self.get_logger().info(f"  PASSED ({detail})")
+            self._results.append((test_name, True, detail))
             time.sleep(1.0)  # let the robot settle
             return True
         else:
@@ -233,13 +262,44 @@ class PlannerTester(Node):
         goal = self._make_joint_goal(OFFSET_STATE, "pilz_industrial_motion_planner", "PTP")
         self.send_goal_and_wait(goal, "Pilz PTP: zero -> offset")
 
-        # Test 9: Pilz LIN (joint-space goal) -> zero
-        goal = self._make_joint_goal(NAMED_STATES["zero"], "pilz_industrial_motion_planner", "LIN")
-        self.send_goal_and_wait(goal, "Pilz LIN: offset -> zero (joint goal)")
+        # ===== Pilz Cartesian planners =====
 
-        # Test 10: Pilz PTP -> default (return home)
+        # First go to a known pose via PTP, then get EE pose for Cartesian tests
+        goal = self._make_joint_goal(NAMED_STATES["zero"], "pilz_industrial_motion_planner", "PTP")
+        self.send_goal_and_wait(goal, "Pilz PTP: setup for Cartesian tests -> zero")
+
+        ee_pose = self.get_ee_pose()
+        if ee_pose:
+            self.get_logger().info(
+                f"  EE pose: [{ee_pose.pose.position.x:.3f}, "
+                f"{ee_pose.pose.position.y:.3f}, {ee_pose.pose.position.z:.3f}]"
+            )
+
+            # Test: Pilz LIN — small Z offset (move 10cm up)
+            lin_target = copy.deepcopy(ee_pose)
+            lin_target.pose.position.z += 0.10
+            goal = self._make_cartesian_goal(lin_target, "pilz_industrial_motion_planner", "LIN")
+            self.send_goal_and_wait(goal, "Pilz LIN: +10cm Z (Cartesian)")
+
+            # Test: Pilz LIN — back down
+            goal = self._make_cartesian_goal(ee_pose, "pilz_industrial_motion_planner", "LIN")
+            self.send_goal_and_wait(goal, "Pilz LIN: -10cm Z back (Cartesian)")
+
+            # Test: Pilz LIN — small X offset
+            lin_target2 = copy.deepcopy(ee_pose)
+            lin_target2.pose.position.x += 0.10
+            goal = self._make_cartesian_goal(lin_target2, "pilz_industrial_motion_planner", "LIN")
+            self.send_goal_and_wait(goal, "Pilz LIN: +10cm X (Cartesian)")
+
+            # Test: Pilz LIN — back
+            goal = self._make_cartesian_goal(ee_pose, "pilz_industrial_motion_planner", "LIN")
+            self.send_goal_and_wait(goal, "Pilz LIN: back to origin (Cartesian)")
+        else:
+            self._results.append(("Pilz LIN tests", False, "Could not get EE pose"))
+
+        # Return home
         goal = self._make_joint_goal(NAMED_STATES["default"], "pilz_industrial_motion_planner", "PTP")
-        self.send_goal_and_wait(goal, "Pilz PTP: zero -> default")
+        self.send_goal_and_wait(goal, "Pilz PTP: return to default")
 
         # ===== Summary =====
         self.get_logger().info("")
