@@ -8,6 +8,14 @@
 
   <!-- ==================== Links ==================== -->
 
+  <link name="world"/>
+
+  <joint name="world_to_base" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+
   <link name="base_link">
     <inertial>
       <origin xyz="0.18214323685253 -0.030374158086361 0.956536163087158" rpy="0 0 0"/>
