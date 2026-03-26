@@ -15,7 +15,7 @@ from rclpy.node import Node
 from rclpy.action import ActionClient
 
 from moveit_msgs.action import MoveGroup
-from moveit_msgs.msg import Constraints, JointConstraint
+from moveit_msgs.msg import Constraints, JointConstraint, DisplayTrajectory, RobotTrajectory
 
 NAMED_STATES = {
     "default": [-0.785, -1.74532925, 1.74532925, 0.0, 1.57079633, 0.0],
@@ -47,6 +47,7 @@ def main():
     rclpy.init()
     node = Node("plan_to")
     client = ActionClient(node, MoveGroup, "/move_action")
+    display_pub = node.create_publisher(DisplayTrajectory, "/display_planned_path", 10)
 
     node.get_logger().info("Waiting for MoveGroup action server...")
     if not client.wait_for_server(timeout_sec=10.0):
@@ -100,7 +101,17 @@ def main():
         pts = len(traj.points)
         dur = traj.points[-1].time_from_start.sec + traj.points[-1].time_from_start.nanosec * 1e-9 if pts > 0 else 0.0
         node.get_logger().info(f"Plan OK: {pts} points, duration={dur:.3f}s")
-        node.get_logger().info("Use execute_to.py to execute the last planned trajectory")
+
+        # Publish to RViz
+        display = DisplayTrajectory()
+        display.trajectory.append(r.planned_trajectory)
+        display_pub.publish(display)
+        node.get_logger().info("Published trajectory to /display_planned_path (visible in RViz)")
+        node.get_logger().info("Use execute_to.py to execute")
+
+        # Keep alive briefly so RViz receives the message
+        import time
+        time.sleep(1.0)
     else:
         node.get_logger().error(f"Planning failed: error_code={r.error_code.val}")
         sys.exit(1)
