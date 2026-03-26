@@ -7,8 +7,8 @@ Requires bringup.launch.py to be running.
 Usage: ros2 run kuka_moveit2_spike test_plan_execute.py
    or: python3 test_plan_execute.py
 """
+
 import copy
-import math
 import time
 import sys
 
@@ -25,13 +25,10 @@ from moveit_msgs.msg import (
     JointConstraint,
     PositionConstraint,
     OrientationConstraint,
-    MotionPlanRequest,
-    PlanningOptions,
     BoundingVolume,
 )
 from shape_msgs.msg import SolidPrimitive
 from geometry_msgs.msg import PoseStamped
-from sensor_msgs.msg import JointState
 
 # Named states from SRDF
 NAMED_STATES = {
@@ -64,8 +61,12 @@ OFFSET_STATE = {
 }
 
 JOINT_NAMES = [
-    "joint_a1", "joint_a2", "joint_a3",
-    "joint_a4", "joint_a5", "joint_a6",
+    "joint_a1",
+    "joint_a2",
+    "joint_a3",
+    "joint_a4",
+    "joint_a5",
+    "joint_a6",
 ]
 
 
@@ -86,7 +87,9 @@ class PlannerTester(Node):
         while time.time() < end_time:
             rclpy.spin_once(self, timeout_sec=0.1)
             try:
-                t = self._tf_buffer.lookup_transform("base_link", "link_A6", rclpy.time.Time())
+                t = self._tf_buffer.lookup_transform(
+                    "base_link", "link_A6", rclpy.time.Time()
+                )
                 pose = PoseStamped()
                 pose.header.frame_id = "base_link"
                 pose.pose.position.x = t.transform.translation.x
@@ -136,7 +139,9 @@ class PlannerTester(Node):
 
         return goal
 
-    def _make_cartesian_goal(self, pose, pipeline_id="pilz_industrial_motion_planner", planner_id="LIN"):
+    def _make_cartesian_goal(
+        self, pose, pipeline_id="pilz_industrial_motion_planner", planner_id="LIN"
+    ):
         """Build a MoveGroup goal for Cartesian pose targets."""
         goal = MoveGroup.Goal()
         req = goal.request
@@ -195,17 +200,17 @@ class PlannerTester(Node):
 
         goal_handle = future.result()
         if not goal_handle or not goal_handle.accepted:
-            self.get_logger().error(f"  FAILED: Goal rejected")
+            self.get_logger().error("  FAILED: Goal rejected")
             self._results.append((test_name, False, "Goal rejected"))
             return False
 
-        self.get_logger().info(f"  Goal accepted, waiting for result...")
+        self.get_logger().info("  Goal accepted, waiting for result...")
         result_future = goal_handle.get_result_async()
         rclpy.spin_until_future_complete(self, result_future, timeout_sec=timeout)
 
         result = result_future.result()
         if result is None:
-            self.get_logger().error(f"  FAILED: Timeout")
+            self.get_logger().error("  FAILED: Timeout")
             self._results.append((test_name, False, "Timeout"))
             return False
 
@@ -214,7 +219,12 @@ class PlannerTester(Node):
         if error_code == 1:  # SUCCESS
             traj = r.planned_trajectory.joint_trajectory
             traj_pts = len(traj.points)
-            duration = traj.points[-1].time_from_start.sec + traj.points[-1].time_from_start.nanosec * 1e-9 if traj_pts > 0 else 0.0
+            duration = (
+                traj.points[-1].time_from_start.sec
+                + traj.points[-1].time_from_start.nanosec * 1e-9
+                if traj_pts > 0
+                else 0.0
+            )
             detail = f"traj_points={traj_pts}, traj_duration={duration:.3f}s"
             self.get_logger().info(f"  PASSED ({detail})")
             self._results.append((test_name, True, detail))
@@ -256,17 +266,23 @@ class PlannerTester(Node):
         # ===== Pilz planners (joint-space) =====
 
         # Test 7: Pilz PTP -> zero
-        goal = self._make_joint_goal(NAMED_STATES["zero"], "pilz_industrial_motion_planner", "PTP")
+        goal = self._make_joint_goal(
+            NAMED_STATES["zero"], "pilz_industrial_motion_planner", "PTP"
+        )
         self.send_goal_and_wait(goal, "Pilz PTP: default -> zero")
 
         # Test 8: Pilz PTP -> offset
-        goal = self._make_joint_goal(OFFSET_STATE, "pilz_industrial_motion_planner", "PTP")
+        goal = self._make_joint_goal(
+            OFFSET_STATE, "pilz_industrial_motion_planner", "PTP"
+        )
         self.send_goal_and_wait(goal, "Pilz PTP: zero -> offset")
 
         # ===== Pilz Cartesian planners =====
 
         # First go to a known pose via PTP, then get EE pose for Cartesian tests
-        goal = self._make_joint_goal(NAMED_STATES["zero"], "pilz_industrial_motion_planner", "PTP")
+        goal = self._make_joint_goal(
+            NAMED_STATES["zero"], "pilz_industrial_motion_planner", "PTP"
+        )
         self.send_goal_and_wait(goal, "Pilz PTP: setup for Cartesian tests -> zero")
 
         ee_pose = self.get_ee_pose()
@@ -279,37 +295,51 @@ class PlannerTester(Node):
             # Test: Pilz LIN — small Z offset (move 10cm up)
             lin_target = copy.deepcopy(ee_pose)
             lin_target.pose.position.z += 0.10
-            goal = self._make_cartesian_goal(lin_target, "pilz_industrial_motion_planner", "LIN")
+            goal = self._make_cartesian_goal(
+                lin_target, "pilz_industrial_motion_planner", "LIN"
+            )
             self.send_goal_and_wait(goal, "Pilz LIN: +10cm Z (Cartesian)")
 
             # Test: Pilz LIN — back down
-            goal = self._make_cartesian_goal(ee_pose, "pilz_industrial_motion_planner", "LIN")
+            goal = self._make_cartesian_goal(
+                ee_pose, "pilz_industrial_motion_planner", "LIN"
+            )
             self.send_goal_and_wait(goal, "Pilz LIN: -10cm Z back (Cartesian)")
 
             # Test: Pilz LIN — small Y offset (lateral, avoids reach limit)
             lin_target2 = copy.deepcopy(ee_pose)
             lin_target2.pose.position.y += 0.10
-            goal = self._make_cartesian_goal(lin_target2, "pilz_industrial_motion_planner", "LIN")
+            goal = self._make_cartesian_goal(
+                lin_target2, "pilz_industrial_motion_planner", "LIN"
+            )
             self.send_goal_and_wait(goal, "Pilz LIN: +10cm Y (Cartesian)")
 
             # Test: Pilz LIN — back
-            goal = self._make_cartesian_goal(ee_pose, "pilz_industrial_motion_planner", "LIN")
+            goal = self._make_cartesian_goal(
+                ee_pose, "pilz_industrial_motion_planner", "LIN"
+            )
             self.send_goal_and_wait(goal, "Pilz LIN: back to origin (Cartesian)")
 
             # Test: Pilz LIN — retract X (toward base)
             lin_target3 = copy.deepcopy(ee_pose)
             lin_target3.pose.position.x -= 0.10
-            goal = self._make_cartesian_goal(lin_target3, "pilz_industrial_motion_planner", "LIN")
+            goal = self._make_cartesian_goal(
+                lin_target3, "pilz_industrial_motion_planner", "LIN"
+            )
             self.send_goal_and_wait(goal, "Pilz LIN: -10cm X retract (Cartesian)")
 
             # Test: Pilz LIN — back to origin
-            goal = self._make_cartesian_goal(ee_pose, "pilz_industrial_motion_planner", "LIN")
+            goal = self._make_cartesian_goal(
+                ee_pose, "pilz_industrial_motion_planner", "LIN"
+            )
             self.send_goal_and_wait(goal, "Pilz LIN: back to origin (Cartesian) 2")
         else:
             self._results.append(("Pilz LIN tests", False, "Could not get EE pose"))
 
         # Return home
-        goal = self._make_joint_goal(NAMED_STATES["default"], "pilz_industrial_motion_planner", "PTP")
+        goal = self._make_joint_goal(
+            NAMED_STATES["default"], "pilz_industrial_motion_planner", "PTP"
+        )
         self.send_goal_and_wait(goal, "Pilz PTP: return to default")
 
         # ===== Summary =====
@@ -326,7 +356,9 @@ class PlannerTester(Node):
                 passed += 1
             else:
                 failed += 1
-        self.get_logger().info(f"\n  {passed} passed, {failed} failed, {len(self._results)} total")
+        self.get_logger().info(
+            f"\n  {passed} passed, {failed} failed, {len(self._results)} total"
+        )
         self.get_logger().info("=" * 60)
 
 

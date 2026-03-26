@@ -1,4 +1,28 @@
+# Colcon build artifacts
 build/
 install/
 log/
+
+# Vendored / extracted Debian source packages
 ros-humble-*/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# IDE
+.vscode/
+.idea/
+.cursor/
+.cursorignore
+.cursorindexingignore
+.cursorrules
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

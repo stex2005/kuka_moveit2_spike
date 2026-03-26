@@ -1,0 +1,13 @@
+name: Merge branch into 'develop'
+
+# Manual trigger only
+on:
+  workflow_dispatch:
+
+jobs:
+  do-merge:
+    uses: contoroinc/common_github_workflows/.github/workflows/merge-into-branch.yaml@main
+    with:
+      target_branch: develop
+    secrets:
+      private-deploy-key: ${{ secrets.PRIVATE_DEPLOY_KEY }}

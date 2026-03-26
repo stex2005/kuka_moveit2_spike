@@ -1,0 +1,13 @@
+name: Autosync 'main' to 'develop'
+
+on:
+  push:
+   branches:
+     - main
+  workflow_dispatch:
+
+jobs:
+  do-sync:
+    uses: contoroinc/common_github_workflows/.github/workflows/sync-main-to-develop.yaml@main
+    secrets:
+      private-deploy-key: ${{ secrets.PRIVATE_DEPLOY_KEY }}
