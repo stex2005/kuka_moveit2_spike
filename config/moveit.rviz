@@ -257,7 +257,7 @@ Visualization Manager:
             Show Trail: false
         Robot Alpha: 1
         Show Robot Collision: false
-        Show Robot Visual: false
+        Show Robot Visual: true
       Value: true
       Velocity_Scaling_Factor: 0.1
   Enabled: true
