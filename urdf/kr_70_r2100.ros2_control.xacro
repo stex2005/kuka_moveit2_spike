@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="kr70_ros2_control" params="use_fake_hardware:=true">
+
+    <ros2_control name="kr70_arm" type="system">
+      <hardware>
+        <xacro:if value="${use_fake_hardware}">
+          <plugin>mock_components/GenericSystem</plugin>
+          <param name="mock_sensor_commands">false</param>
+          <param name="state_following_offset">0.0</param>
+        </xacro:if>
+        <xacro:unless value="${use_fake_hardware}">
+          <!-- Replace with kuka_drivers plugin when ready -->
+          <plugin>mock_components/GenericSystem</plugin>
+        </xacro:unless>
+      </hardware>
+      <joint name="joint_a1">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">-0.785</param></state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="joint_a2">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">-1.74532925</param></state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="joint_a3">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">1.74532925</param></state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="joint_a4">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">0</param></state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="joint_a5">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">1.57079633</param></state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+      <joint name="joint_a6">
+        <command_interface name="position"/>
+        <state_interface name="position"><param name="initial_value">0</param></state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+    </ros2_control>
+
+  </xacro:macro>
+</robot>
