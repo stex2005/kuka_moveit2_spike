@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<robot name="kr_70_r2100" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <group name="manipulator">
+        <joint name="joint_a1"/>
+        <joint name="joint_a2"/>
+        <joint name="joint_a3"/>
+        <joint name="joint_a4"/>
+        <joint name="joint_a5"/>
+        <joint name="joint_a6"/>
+    </group>
+
+    <group_state name="default" group="manipulator">
+        <joint name="joint_a1" value="-0.785"/>
+        <joint name="joint_a2" value="-1.74532925"/>
+        <joint name="joint_a3" value="1.74532925"/>
+        <joint name="joint_a4" value="0"/>
+        <joint name="joint_a5" value="1.57079633"/>
+        <joint name="joint_a6" value="0"/>
+    </group_state>
+
+    <group_state name="zero" group="manipulator">
+        <joint name="joint_a1" value="0"/>
+        <joint name="joint_a2" value="0"/>
+        <joint name="joint_a3" value="0.5"/>
+        <joint name="joint_a4" value="0"/>
+        <joint name="joint_a5" value="0.5"/>
+        <joint name="joint_a6" value="0"/>
+    </group_state>
+
+    <disable_collisions link1="base_link" link2="link_A1" reason="Adjacent"/>
+    <disable_collisions link1="link_A1" link2="link_A2" reason="Adjacent"/>
+    <disable_collisions link1="link_A1" link2="link_A3" reason="Never"/>
+    <disable_collisions link1="link_A2" link2="link_A3" reason="Adjacent"/>
+    <disable_collisions link1="link_A2" link2="link_A4" reason="Never"/>
+    <disable_collisions link1="link_A2" link2="link_A5" reason="Never"/>
+    <disable_collisions link1="link_A2" link2="link_A6" reason="Never"/>
+    <disable_collisions link1="link_A3" link2="link_A4" reason="Adjacent"/>
+    <disable_collisions link1="link_A3" link2="cable_guide_mount" reason="Adjacent"/>
+    <disable_collisions link1="link_A4" link2="cable_guide_mount" reason="Adjacent"/>
+    <disable_collisions link1="link_A3" link2="link_A5" reason="Never"/>
+    <disable_collisions link1="link_A3" link2="link_A6" reason="Never"/>
+    <disable_collisions link1="link_A4" link2="link_A5" reason="Adjacent"/>
+    <disable_collisions link1="link_A4" link2="link_A6" reason="Never"/>
+    <disable_collisions link1="link_A5" link2="link_A6" reason="Adjacent"/>
+</robot>
