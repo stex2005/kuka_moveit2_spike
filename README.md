@@ -147,14 +147,14 @@ And in the SRDF:
 - **CIRC** requires Cartesian goals with a center or interim point constraint
 - Pilz package name for apt: `ros-humble-pilz-industrial-motion-planner` (not under `moveit-planners-*`)
 
-### RViz performance with STL meshes
+### RViz execution lag — MotionPlanning plugin is the bottleneck
 
-The original KUKA STL meshes total ~7.5MB (link_A1 and link_A4 are 1.7MB each). During trajectory execution, RViz renders at ~1 FPS due to mesh complexity. The planned path animation is smooth because RViz interpolates internally.
+During trajectory execution, RViz drops to ~1 FPS. Initial suspicion was the heavy STL meshes (~7.5MB total), but **disabling mesh visuals did not help**. The actual bottleneck is the **MotionPlanning plugin's planning scene monitor**, which performs continuous collision checking during execution.
 
-Workarounds:
-- Decimate meshes with meshlab/blender (recommended for production)
-- Reduce `joint_state_broadcaster` publish rate (masks the problem)
-- Disable Scene Robot visual during execution
+**Fix:** Use a standalone **RobotModel** display for smooth real-time visualization. Only enable the MotionPlanning display when you need interactive planning (drag goals, plan button). CLI scripts (`plan_to.py`, `execute_to.py`) work without the MotionPlanning display.
+
+With RobotModel only: smooth execution at full frame rate.
+With MotionPlanning enabled: ~1 FPS during execution.
 
 ### MoveGroup action result
 
