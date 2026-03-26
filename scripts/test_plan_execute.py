@@ -212,9 +212,10 @@ class PlannerTester(Node):
         r = result.result
         error_code = r.error_code.val
         if error_code == 1:  # SUCCESS
-            pt = r.planning_time if hasattr(r, 'planning_time') else 0.0
-            traj_pts = len(r.planned_trajectory.joint_trajectory.points) if r.planned_trajectory.joint_trajectory.points else 0
-            detail = f"planning_time={pt:.3f}s, traj_points={traj_pts}"
+            traj = r.planned_trajectory.joint_trajectory
+            traj_pts = len(traj.points)
+            duration = traj.points[-1].time_from_start.sec + traj.points[-1].time_from_start.nanosec * 1e-9 if traj_pts > 0 else 0.0
+            detail = f"traj_points={traj_pts}, traj_duration={duration:.3f}s"
             self.get_logger().info(f"  PASSED ({detail})")
             self._results.append((test_name, True, detail))
             time.sleep(1.0)  # let the robot settle
@@ -285,15 +286,25 @@ class PlannerTester(Node):
             goal = self._make_cartesian_goal(ee_pose, "pilz_industrial_motion_planner", "LIN")
             self.send_goal_and_wait(goal, "Pilz LIN: -10cm Z back (Cartesian)")
 
-            # Test: Pilz LIN — small X offset
+            # Test: Pilz LIN — small Y offset (lateral, avoids reach limit)
             lin_target2 = copy.deepcopy(ee_pose)
-            lin_target2.pose.position.x += 0.10
+            lin_target2.pose.position.y += 0.10
             goal = self._make_cartesian_goal(lin_target2, "pilz_industrial_motion_planner", "LIN")
-            self.send_goal_and_wait(goal, "Pilz LIN: +10cm X (Cartesian)")
+            self.send_goal_and_wait(goal, "Pilz LIN: +10cm Y (Cartesian)")
 
             # Test: Pilz LIN — back
             goal = self._make_cartesian_goal(ee_pose, "pilz_industrial_motion_planner", "LIN")
             self.send_goal_and_wait(goal, "Pilz LIN: back to origin (Cartesian)")
+
+            # Test: Pilz LIN — retract X (toward base)
+            lin_target3 = copy.deepcopy(ee_pose)
+            lin_target3.pose.position.x -= 0.10
+            goal = self._make_cartesian_goal(lin_target3, "pilz_industrial_motion_planner", "LIN")
+            self.send_goal_and_wait(goal, "Pilz LIN: -10cm X retract (Cartesian)")
+
+            # Test: Pilz LIN — back to origin
+            goal = self._make_cartesian_goal(ee_pose, "pilz_industrial_motion_planner", "LIN")
+            self.send_goal_and_wait(goal, "Pilz LIN: back to origin (Cartesian) 2")
         else:
             self._results.append(("Pilz LIN tests", False, "Could not get EE pose"))
 
