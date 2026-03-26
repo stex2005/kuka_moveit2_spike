@@ -7,6 +7,7 @@ Usage:
   python3 execute_to.py --joints 0.0 0.0 0.5 0.0 0.5 0.0
   python3 execute_to.py zero --pipeline pilz_industrial_motion_planner --planner PTP
 """
+
 import argparse
 import sys
 
@@ -23,19 +24,33 @@ NAMED_STATES = {
 }
 
 JOINT_NAMES = [
-    "joint_a1", "joint_a2", "joint_a3",
-    "joint_a4", "joint_a5", "joint_a6",
+    "joint_a1",
+    "joint_a2",
+    "joint_a3",
+    "joint_a4",
+    "joint_a5",
+    "joint_a6",
 ]
 
 
 def main():
     parser = argparse.ArgumentParser(description="Plan and execute to a target")
     parser.add_argument("target", nargs="?", help="Named state (zero, default)")
-    parser.add_argument("--joints", nargs=6, type=float, help="6 joint values in radians")
-    parser.add_argument("--pipeline", default="ompl", help="Planning pipeline (default: ompl)")
-    parser.add_argument("--planner", default="", help="Planner ID (e.g. RRTConnect, PTP)")
-    parser.add_argument("--velocity", type=float, default=0.5, help="Max velocity scaling (0-1)")
-    parser.add_argument("--acceleration", type=float, default=0.5, help="Max acceleration scaling (0-1)")
+    parser.add_argument(
+        "--joints", nargs=6, type=float, help="6 joint values in radians"
+    )
+    parser.add_argument(
+        "--pipeline", default="ompl", help="Planning pipeline (default: ompl)"
+    )
+    parser.add_argument(
+        "--planner", default="", help="Planner ID (e.g. RRTConnect, PTP)"
+    )
+    parser.add_argument(
+        "--velocity", type=float, default=0.5, help="Max velocity scaling (0-1)"
+    )
+    parser.add_argument(
+        "--acceleration", type=float, default=0.5, help="Max acceleration scaling (0-1)"
+    )
     args = parser.parse_args()
 
     if args.joints:
@@ -43,7 +58,9 @@ def main():
     elif args.target and args.target in NAMED_STATES:
         joint_values = NAMED_STATES[args.target]
     else:
-        print(f"Usage: execute_to.py <{'|'.join(NAMED_STATES)}> or --joints j1 j2 j3 j4 j5 j6")
+        print(
+            f"Usage: execute_to.py <{'|'.join(NAMED_STATES)}> or --joints j1 j2 j3 j4 j5 j6"
+        )
         sys.exit(1)
 
     rclpy.init()
@@ -106,7 +123,12 @@ def main():
     if r.error_code.val == 1:
         traj = r.planned_trajectory.joint_trajectory
         pts = len(traj.points)
-        dur = traj.points[-1].time_from_start.sec + traj.points[-1].time_from_start.nanosec * 1e-9 if pts > 0 else 0.0
+        dur = (
+            traj.points[-1].time_from_start.sec
+            + traj.points[-1].time_from_start.nanosec * 1e-9
+            if pts > 0
+            else 0.0
+        )
         node.get_logger().info(f"Done: {pts} points, duration={dur:.3f}s")
     else:
         node.get_logger().error(f"Failed: error_code={r.error_code.val}")

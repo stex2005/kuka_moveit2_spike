@@ -7,6 +7,7 @@ Usage:
   python3 plan_to.py --joints 0.0 0.0 0.5 0.0 0.5 0.0
   python3 plan_to.py zero --pipeline pilz_industrial_motion_planner --planner PTP
 """
+
 import argparse
 import sys
 
@@ -24,17 +25,27 @@ NAMED_STATES = {
 }
 
 JOINT_NAMES = [
-    "joint_a1", "joint_a2", "joint_a3",
-    "joint_a4", "joint_a5", "joint_a6",
+    "joint_a1",
+    "joint_a2",
+    "joint_a3",
+    "joint_a4",
+    "joint_a5",
+    "joint_a6",
 ]
 
 
 def main():
     parser = argparse.ArgumentParser(description="Plan to a target")
     parser.add_argument("target", nargs="?", help="Named state (zero, default)")
-    parser.add_argument("--joints", nargs=6, type=float, help="6 joint values in radians")
-    parser.add_argument("--pipeline", default="ompl", help="Planning pipeline (default: ompl)")
-    parser.add_argument("--planner", default="", help="Planner ID (e.g. RRTConnect, PTP)")
+    parser.add_argument(
+        "--joints", nargs=6, type=float, help="6 joint values in radians"
+    )
+    parser.add_argument(
+        "--pipeline", default="ompl", help="Planning pipeline (default: ompl)"
+    )
+    parser.add_argument(
+        "--planner", default="", help="Planner ID (e.g. RRTConnect, PTP)"
+    )
     args = parser.parse_args()
 
     if args.joints:
@@ -42,7 +53,9 @@ def main():
     elif args.target and args.target in NAMED_STATES:
         joint_values = NAMED_STATES[args.target]
     else:
-        print(f"Usage: plan_to.py <{'|'.join(NAMED_STATES)}> or --joints j1 j2 j3 j4 j5 j6")
+        print(
+            f"Usage: plan_to.py <{'|'.join(NAMED_STATES)}> or --joints j1 j2 j3 j4 j5 j6"
+        )
         sys.exit(1)
 
     rclpy.init()
@@ -52,11 +65,14 @@ def main():
 
     # Get current joint state for trajectory_start
     current_js = [None]
+
     def js_cb(msg):
         current_js[0] = msg
-    js_sub = node.create_subscription(JointState, "/joint_states", js_cb, 10)
+
+    _js_sub = node.create_subscription(JointState, "/joint_states", js_cb, 10)
     # Spin until we get a joint state
     import time as _time
+
     t0 = _time.time()
     while current_js[0] is None and (_time.time() - t0) < 5.0:
         rclpy.spin_once(node, timeout_sec=0.1)
@@ -89,7 +105,9 @@ def main():
     goal.planning_options.plan_only = True
 
     target_str = args.target if args.target else str(joint_values)
-    node.get_logger().info(f"Planning to {target_str} with {args.pipeline}/{args.planner or 'default'}...")
+    node.get_logger().info(
+        f"Planning to {target_str} with {args.pipeline}/{args.planner or 'default'}..."
+    )
 
     future = client.send_goal_async(goal)
     rclpy.spin_until_future_complete(node, future, timeout_sec=10.0)
@@ -111,17 +129,24 @@ def main():
     if r.error_code.val == 1:
         traj = r.planned_trajectory.joint_trajectory
         pts = len(traj.points)
-        dur = traj.points[-1].time_from_start.sec + traj.points[-1].time_from_start.nanosec * 1e-9 if pts > 0 else 0.0
+        dur = (
+            traj.points[-1].time_from_start.sec
+            + traj.points[-1].time_from_start.nanosec * 1e-9
+            if pts > 0
+            else 0.0
+        )
         node.get_logger().info(f"Plan OK: {pts} points, duration={dur:.3f}s")
 
         # Publish to RViz with start state
         display = DisplayTrajectory()
         display.trajectory.append(r.planned_trajectory)
         if current_js[0]:
-            from moveit_msgs.msg import RobotState
+
             display.trajectory_start.joint_state = current_js[0]
         display_pub.publish(display)
-        node.get_logger().info("Published trajectory to /display_planned_path (visible in RViz)")
+        node.get_logger().info(
+            "Published trajectory to /display_planned_path (visible in RViz)"
+        )
         node.get_logger().info("Use execute_to.py to execute")
 
         # Keep alive so RViz receives the latched message
