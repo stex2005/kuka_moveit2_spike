@@ -141,7 +141,6 @@ def main():
         display = DisplayTrajectory()
         display.trajectory.append(r.planned_trajectory)
         if current_js[0]:
-
             display.trajectory_start.joint_state = current_js[0]
         display_pub.publish(display)
         node.get_logger().info(
